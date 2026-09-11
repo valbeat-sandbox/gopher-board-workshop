@@ -13,6 +13,7 @@ import (
 	"machine"
 	"time"
 
+	"tinygo.org/x/drivers/pixel"
 	"tinygo.org/x/drivers/st7789"
 	"tinygo.org/x/tinyfont"
 	"tinygo.org/x/tinyfont/freesans"
@@ -30,6 +31,13 @@ const (
 
 //go:embed qr.bin
 var qrData []byte
+
+// 240x240 の RGB565BE。tools/main.go で画像から変換したもの。
+//
+//	go run upstream/tools/main.go st7789_profile/horse.png st7789_profile/horse.raw
+//
+//go:embed horse.raw
+var imgData []byte
 
 const screenSize = 240
 
@@ -71,7 +79,7 @@ func main() {
 	}
 	pressed := make([]bool, len(buttons))
 
-	screens := []func(){drawProfile, drawQR}
+	screens := []func(){drawProfile, drawQR, drawImage}
 	current := 0
 	screens[current]()
 
@@ -100,10 +108,16 @@ func drawProfile() {
 	tinyfont.WriteLine(&display, &freesans.Bold12pt7b, 10, 95, profileHandle, cyan)
 	// 日本語を含むので東雲フォントを使う。freesans は ASCII しか持たない。
 	tinyfont.WriteLine(&display, &shnm.Shnmk12, 10, 140, profileBio, white)
-	tinyfont.WriteLine(&display, &freesans.Regular9pt7b, 10, 220, "Press Up for QR", gray)
+	tinyfont.WriteLine(&display, &freesans.Regular9pt7b, 10, 220, "Up / Down to switch", gray)
 }
 
-// 埋め込んだビットマップを画面いっぱいに拡大して描く。
+// 埋め込んだ画像を全画面に描く。
+func drawImage() {
+	img := pixel.NewImageFromBytes[pixel.RGB565BE](screenSize, screenSize, imgData)
+	display.DrawBitmap(0, 0, img)
+}
+
+// 埋め込んだ QR ビットマップを画面いっぱいに拡大して描く。
 func drawQR() {
 	display.FillScreen(white)
 
