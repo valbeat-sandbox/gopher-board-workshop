@@ -1,0 +1,10 @@
+# 参考用の upstream clone（自分のリポジトリには含めない）
+/upstream/
+
+# TinyGo のビルド成果物
+*.uf2
+*.elf
+*.hex
+*.bin
+
+.DS_Store
