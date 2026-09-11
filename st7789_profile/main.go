@@ -16,6 +16,7 @@ import (
 	"tinygo.org/x/drivers/st7789"
 	"tinygo.org/x/tinyfont"
 	"tinygo.org/x/tinyfont/freesans"
+	"tinygo.org/x/tinyfont/shnm"
 )
 
 // 表示内容。変えたいときはここだけ触る。
@@ -24,8 +25,7 @@ const (
 	profileName   = "Takuma Kajikawa"
 	profileHandle = "@kajitack"
 	profileURL    = "https://x.com/kajitack"
-	profileBio1   = "Software Engineer"
-	profileBio2   = "Go / Kubernetes"
+	profileBio    = "テックトレイン VPoT"
 )
 
 //go:embed qr.bin
@@ -98,8 +98,8 @@ func drawProfile() {
 
 	tinyfont.WriteLine(&display, &freesans.Bold12pt7b, 10, 60, profileName, white)
 	tinyfont.WriteLine(&display, &freesans.Bold12pt7b, 10, 95, profileHandle, cyan)
-	tinyfont.WriteLine(&display, &freesans.Regular9pt7b, 10, 140, profileBio1, white)
-	tinyfont.WriteLine(&display, &freesans.Regular9pt7b, 10, 165, profileBio2, white)
+	// 日本語を含むので東雲フォントを使う。freesans は ASCII しか持たない。
+	tinyfont.WriteLine(&display, &shnm.Shnmk12, 10, 140, profileBio, white)
 	tinyfont.WriteLine(&display, &freesans.Regular9pt7b, 10, 220, "Press Up for QR", gray)
 }
 
