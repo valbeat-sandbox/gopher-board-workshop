@@ -22,8 +22,8 @@ import (
 // profileURL を変えたら qrgen を実行し直して qr.bin を作り直すこと。
 const (
 	profileName   = "Takuma Kajikawa"
-	profileHandle = "@valbeat"
-	profileURL    = "https://x.com/valbeat"
+	profileHandle = "@kajitack"
+	profileURL    = "https://x.com/kajitack"
 	profileBio1   = "Software Engineer"
 	profileBio2   = "Go / Kubernetes"
 )
