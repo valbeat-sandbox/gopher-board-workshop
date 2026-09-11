@@ -11,3 +11,6 @@
 
 # koebiten の clone
 /koebiten/
+
+# qrgen が生成する QR ビットマップはソースとして扱う
+!st7789_profile/qr.bin
