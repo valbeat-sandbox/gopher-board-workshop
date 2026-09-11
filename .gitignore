@@ -8,3 +8,6 @@
 *.bin
 
 .DS_Store
+
+# koebiten の clone
+/koebiten/

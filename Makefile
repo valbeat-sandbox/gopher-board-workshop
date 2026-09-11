@@ -31,3 +31,13 @@ monitor:
 08-bmp:   ; cd upstream/08_st7789_bmp && $(FLASH) main.go
 08-img:   ; cd upstream/08_st7789_img && $(FLASH) main.go
 08-multi: ; cd upstream/08_st7789_multi_img && $(FLASH) main.go
+
+# --- koebiten（マイコン向け ebiten 移植のゲームエンジン） ---
+.PHONY: koebiten game
+koebiten:
+	@test -d koebiten || git clone --depth 1 https://github.com/sago35/koebiten.git koebiten
+
+## GAME=blocks などで単体のゲームを書き込む。省略時は全ゲーム入りのランチャー
+GAME ?= all
+game: koebiten
+	cd koebiten && tinygo flash --target ./targets/gopher-board-spi.json --size short ./games/$(GAME)
