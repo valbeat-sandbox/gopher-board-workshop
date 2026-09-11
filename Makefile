@@ -41,3 +41,16 @@ koebiten:
 GAME ?= all
 game: koebiten
 	cd koebiten && tinygo flash --target ./targets/gopher-board-spi.json --size short ./games/$(GAME)
+
+# --- 自作プログラム ---
+.PHONY: party horse
+## フルカラーLED をボタンで操作する
+party:
+	cd ws2812_party && $(FLASH) .
+
+## 液晶に画像を表示する。IMG=path/to/foo.png で画像を差し替える
+horse:
+ifdef IMG
+	cd upstream/tools && go run main.go "$(CURDIR)/$(IMG)" "$(CURDIR)/st7789_horse/horse.raw"
+endif
+	cd st7789_horse && $(FLASH) .
