@@ -54,3 +54,11 @@ ifdef IMG
 	cd upstream/tools && go run main.go "$(CURDIR)/$(IMG)" "$(CURDIR)/st7789_horse/horse.raw"
 endif
 	cd st7789_horse && $(FLASH) .
+
+## X のプロフィールと QR コードを表示する。URL=https://x.com/... で QR を作り直す
+.PHONY: profile
+profile:
+ifdef URL
+	cd tools/qrgen && go run . "$(URL)" "$(CURDIR)/st7789_profile/qr.bin"
+endif
+	cd st7789_profile && $(FLASH) .
